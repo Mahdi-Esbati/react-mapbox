@@ -1,9 +1,10 @@
-import * as React from 'react';
 import * as MapboxGL from 'mapbox-gl';
-const isEqual = require('deep-equal'); //tslint:disable-line
-import diff from './util/diff';
-import { Props as FeatureProps } from './feature';
+import * as React from 'react';
 
+import { Props as FeatureProps } from './feature';
+import diff from './util/diff';
+
+const isEqual = require('deep-equal'); //tslint:disable-line
 export type Paint =
   | MapboxGL.BackgroundPaint
   | MapboxGL.FillPaint
@@ -160,6 +161,7 @@ export default class Layer extends React.Component<Props> {
     id: number
   ): GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties> => ({
     type: 'Feature',
+    id,
     geometry: this.geometry(props.coordinates),
     properties: { ...props.properties, id }
   });

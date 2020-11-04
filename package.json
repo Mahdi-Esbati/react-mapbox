@@ -1,6 +1,6 @@
 {
-  "name": "react-mapbox-gl",
-  "version": "5.0.0",
+  "name": "@mahdi-esbati/react-mapbox",
+  "version": "0.0.2",
   "description": "A React binding of mapbox-gl-js",
   "main": "lib/index.js",
   "module": "lib-esm/index.js",
@@ -86,7 +86,7 @@
     "@types/jest": "24.0.19",
     "@types/mapbox-gl": "^1.10.2",
     "@types/node": "8.0.29",
-    "@types/prettier": "1.10.0",
+    "@types/prettier": "^2.1.2",
     "@types/prop-types": "15.5.6",
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
@@ -96,7 +96,7 @@
     "husky": "^0.14.3",
     "jest": "24.9.0",
     "mapbox-gl": "^1.10.1",
-    "prettier": "1.10.2",
+    "prettier": "^2.1.2",
     "prop-types": "15.6.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
@@ -106,5 +106,10 @@
     "tslint": "5.7.0",
     "tslint-react": "3.2.0",
     "typescript": "3.1.6"
+  },
+  "directories": {
+    "doc": "docs",
+    "example": "example",
+    "lib": "lib"
   }
 }

@@ -1,7 +1,8 @@
-import * as React from 'react';
-import Layer, { ImageDefinitionWithOptions } from '../layer';
-import { getMapMock } from '../jest/util';
 import { mount } from 'enzyme';
+import * as React from 'react';
+
+import { getMapMock } from '../jest/util';
+import Layer, { ImageDefinitionWithOptions } from '../layer';
 
 describe('Layer', () => {
   it('Should render layer with default options', () => {
@@ -135,6 +136,7 @@ describe('Layer', () => {
         type: 'FeatureCollection',
         features: [
           {
+            id: 0,
             geometry: { ...feature, type: 'Point' },
             properties: { id: 0 },
             type: 'Feature'
@@ -209,6 +211,7 @@ describe('Layer', () => {
         type: 'FeatureCollection',
         features: [
           {
+            id : 0,
             geometry: { ...feature, type: 'Polygon' },
             properties: { id: 0 },
             type: 'Feature'
@@ -233,6 +236,7 @@ describe('Layer', () => {
         type: 'FeatureCollection',
         features: [
           {
+            id: 0,
             geometry: { ...feature, type: 'MultiPolygon' },
             properties: { id: 0 },
             type: 'Feature'
