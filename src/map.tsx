@@ -1,15 +1,10 @@
+import isEqual from 'deep-equal';
 import * as MapboxGl from 'mapbox-gl';
 import * as React from 'react';
-import {
-  Events,
-  listenEvents,
-  events,
-  Listeners,
-  updateEvents
-} from './map-events';
-import { MapContext } from './context';
 import { createPortal } from 'react-dom';
-const isEqual = require('deep-equal'); //tslint:disable-line
+
+import { MapContext } from './context';
+import { Events, events, Listeners, listenEvents, updateEvents } from './map-events';
 
 export interface PaddingOptions {
   top: number;
