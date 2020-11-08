@@ -34,10 +34,7 @@ describe('Popup', () => {
     );
 
     expect(
-      wrapper
-        .find('Popup')
-        .childAt(0)
-        .hasClass(defaultClassName[0])
+      wrapper.find('Popup').childAt(0).hasClass(defaultClassName[0])
     ).toEqual(true);
   });
 });

@@ -89,7 +89,7 @@ export interface OwnProps {
 export type Props = LayerCommonProps & LayerEvents & OwnProps;
 
 type EventToHandlersType = {
-  [key in keyof MapboxGL.MapLayerEventType]?: keyof LayerEvents
+  [key in keyof MapboxGL.MapLayerEventType]?: keyof LayerEvents;
 };
 
 const eventToHandler: EventToHandlersType = {
@@ -213,8 +213,8 @@ export default class Layer extends React.Component<Props> {
     if (images) {
       const normalizedImages = !Array.isArray(images[0]) ? [images] : images;
       (normalizedImages as ImageDefinitionWithOptions[])
-        .filter(image => !map.hasImage(image[0]))
-        .forEach(image => {
+        .filter((image) => !map.hasImage(image[0]))
+        .forEach((image) => {
           map.addImage(image[0], image[1], image[2]);
         });
     }
@@ -305,7 +305,7 @@ export default class Layer extends React.Component<Props> {
     if (!isEqual(this.props.paint, paint)) {
       const paintDiff = diff(paint, this.props.paint);
 
-      Object.keys(paintDiff).forEach(key => {
+      Object.keys(paintDiff).forEach((key) => {
         map.setPaintProperty(id, key, paintDiff[key]);
       });
     }
@@ -313,7 +313,7 @@ export default class Layer extends React.Component<Props> {
     if (!isEqual(this.props.layout, layout)) {
       const layoutDiff = diff(layout, this.props.layout);
 
-      Object.keys(layoutDiff).forEach(key => {
+      Object.keys(layoutDiff).forEach((key) => {
         map.setLayoutProperty(id, key, layoutDiff[key]);
       });
     }
@@ -372,8 +372,8 @@ export default class Layer extends React.Component<Props> {
     let children = this.getChildren();
 
     if (draggedChildren) {
-      const draggableChildrenIds = draggedChildren.map(child => child.key);
-      children = children.map(child => {
+      const draggableChildrenIds = draggedChildren.map((child) => child.key);
+      children = children.map((child) => {
         const indexChildren = draggableChildrenIds.indexOf(child.key);
         if (indexChildren !== -1) {
           return draggedChildren[indexChildren];

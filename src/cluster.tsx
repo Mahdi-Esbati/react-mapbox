@@ -140,7 +140,7 @@ export class Cluster extends React.Component<Props, State> {
   private childrenToFeatures = (
     children: Array<React.ReactElement<MarkerProps>>
   ) =>
-    children.map(child => {
+    children.map((child) => {
       const feature = this.feature(child && child.props.coordinates);
       this.featureClusterMap.set(feature, child);
       return feature;

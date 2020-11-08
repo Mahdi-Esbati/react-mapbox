@@ -74,7 +74,7 @@ const POSITION_CIRCLE_PAINT = {
 };
 
 const selectedStyles = ['basic', 'dark', 'light'];
-const switchStyles = Object.keys(styles).filter(k =>
+const switchStyles = Object.keys(styles).filter((k) =>
   (selectedStyles as any).includes(k)
 );
 
@@ -111,7 +111,7 @@ class StyleUpdate extends React.Component<Props, State> {
           mapCenter: [longitude, latitude]
         });
       },
-      err => {
+      (err) => {
         console.error('Cannot retrieve your current position', err);
       }
     );
@@ -180,9 +180,7 @@ class StyleUpdate extends React.Component<Props, State> {
                 sourceId={'example_id'}
               />
             </div>
-          ) : (
-            undefined
-          )}
+          ) : undefined}
 
           <Layer
             type="circle"
@@ -194,7 +192,7 @@ class StyleUpdate extends React.Component<Props, State> {
                 key={index}
                 coordinates={loc}
                 draggable={index === 0}
-                onDragEnd={evt => this.onDragEnd(evt, index)}
+                onDragEnd={(evt) => this.onDragEnd(evt, index)}
                 onDragStart={this.onDragStart}
                 onDrag={this.onDrag}
               />

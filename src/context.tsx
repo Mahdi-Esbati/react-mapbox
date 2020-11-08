@@ -10,7 +10,7 @@ export function withMap(Component: React.ComponentClass<any>) {
   return function MappedComponent<T>(props: T) {
     return (
       <MapContext.Consumer>
-        {map => <Component map={map} {...props} />}
+        {(map) => <Component map={map} {...props} />}
       </MapContext.Consumer>
     );
   };

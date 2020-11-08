@@ -96,14 +96,14 @@ export class ScaleControl extends React.Component<Props, State> {
   public componentDidMount() {
     this.setScale();
 
-    triggerEvents.forEach(event => {
+    triggerEvents.forEach((event) => {
       this.props.map.on(event, this.setScale);
     });
   }
 
   public componentWillUnmount() {
     if (this.props.map) {
-      triggerEvents.forEach(event => {
+      triggerEvents.forEach((event) => {
         this.props.map.off(event, this.setScale);
       });
     }
@@ -123,7 +123,7 @@ export class ScaleControl extends React.Component<Props, State> {
       measurement
     );
 
-    const relativeWidth = totalWidth / clientWidth * MIN_WIDTH_SCALE;
+    const relativeWidth = (totalWidth / clientWidth) * MIN_WIDTH_SCALE;
 
     const chosenScale = scales.reduce((acc, curr) => {
       if (!acc && curr > relativeWidth) {
@@ -134,7 +134,7 @@ export class ScaleControl extends React.Component<Props, State> {
     }, 0);
 
     // tslint:disable-next-line:no-any
-    const scaleWidth = chosenScale / totalWidth * clientWidth;
+    const scaleWidth = (chosenScale / totalWidth) * clientWidth;
 
     this.setState({
       chosenScale,

@@ -110,8 +110,9 @@ export class RotationControl extends React.Component<Props, State> {
   private onMapRotate = () => {
     const { map } = this.props;
     // tslint:disable-next-line:no-any
-    const rotate = `rotate(${(map as any).transform.angle *
-      (180 / Math.PI)}deg)`;
+    const rotate = `rotate(${
+      (map as any).transform.angle * (180 / Math.PI)
+    }deg)`;
 
     if (this.compassIcon) {
       this.compassIcon.style.transform = rotate;

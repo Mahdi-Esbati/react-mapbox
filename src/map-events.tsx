@@ -100,7 +100,7 @@ export const events: EventMapping = {
 };
 
 export type Listeners = {
-  [T in keyof Events]: (evt: React.SyntheticEvent<any>) => void // tslint:disable-line:no-any
+  [T in keyof Events]: (evt: React.SyntheticEvent<any>) => void; // tslint:disable-line:no-any
 };
 
 export const listenEvents = (
@@ -135,17 +135,17 @@ export const updateEvents = (
   map: MapboxGl.Map
 ) => {
   const toListenOff = Object.keys(events).filter(
-    eventKey =>
+    (eventKey) =>
       listeners[eventKey] && typeof currentProps[eventKey] !== 'function'
   );
 
-  toListenOff.forEach(key => {
+  toListenOff.forEach((key) => {
     map.off(events[key], listeners[key]);
     delete listeners[key];
   });
 
   const toListenOn = Object.keys(events)
-    .filter(key => !listeners[key] && typeof currentProps[key] === 'function')
+    .filter((key) => !listeners[key] && typeof currentProps[key] === 'function')
     .reduce((acc, next) => ((acc[next] = events[next]), acc), {});
 
   const newListeners = listenEvents(toListenOn, currentProps, map);

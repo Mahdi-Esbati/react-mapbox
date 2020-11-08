@@ -23,6 +23,6 @@ describe('layer-events-hoc', () => {
       'touchstart'
     ];
 
-    expect(mapMock.on.mock.calls.map(call => call[0])).toEqual(events);
+    expect(mapMock.on.mock.calls.map((call) => call[0])).toEqual(events);
   });
 });

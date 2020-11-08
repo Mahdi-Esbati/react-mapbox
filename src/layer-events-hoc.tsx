@@ -41,11 +41,10 @@ export function layerMouseTouchEvents(
       featureIds: number[] = this.hover
     ) =>
       !!featureIds
-        .map(
-          id =>
-            this.getChildFromId(children, id)
-              ? this.getChildFromId(children, id)!.props.draggable
-              : false
+        .map((id) =>
+          this.getChildFromId(children, id)
+            ? this.getChildFromId(children, id)!.props.draggable
+            : false
         )
         .filter(Boolean).length;
 
@@ -59,7 +58,7 @@ export function layerMouseTouchEvents(
       const { map } = this.props;
 
       if (features) {
-        features.forEach(feature => {
+        features.forEach((feature) => {
           const { id } = feature.properties;
           if (children) {
             const child = this.getChildFromId(children, id);
@@ -106,7 +105,7 @@ export function layerMouseTouchEvents(
         map.dragPan.enable();
       }
 
-      this.hover.forEach(id => {
+      this.hover.forEach((id) => {
         const child = this.getChildFromId(children, id);
         const onMouseLeave = child && child.props.onMouseLeave;
         if (onMouseLeave) {
@@ -157,7 +156,7 @@ export function layerMouseTouchEvents(
       const { map } = this.props;
       const children = this.getChildren();
 
-      this.hover.forEach(id => {
+      this.hover.forEach((id) => {
         const child = this.getChildFromId(children, id);
         if (child && !child.props.draggable) {
           return;
@@ -174,10 +173,12 @@ export function layerMouseTouchEvents(
     public onFeatureDrag = (evt: any) => {
       const children = this.getChildren();
       const { map } = this.props;
-      const { lngLat: { lng, lat } } = evt;
+      const {
+        lngLat: { lng, lat }
+      } = evt;
       this.draggedChildren = [];
 
-      this.hover.forEach(id => {
+      this.hover.forEach((id) => {
         const child = this.getChildFromId(children, id);
         const onDrag = child && child.props.onDrag;
 
@@ -203,7 +204,7 @@ export function layerMouseTouchEvents(
       const { map } = this.props;
       const children = this.getChildren();
 
-      this.hover.forEach(id => {
+      this.hover.forEach((id) => {
         const child = this.getChildFromId(children, id);
         const onDragEnd = child && child.props.onDragEnd;
 

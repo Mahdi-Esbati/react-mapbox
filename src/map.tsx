@@ -4,7 +4,13 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 
 import { MapContext } from './context';
-import { Events, events, Listeners, listenEvents, updateEvents } from './map-events';
+import {
+  Events,
+  events,
+  Listeners,
+  listenEvents,
+  updateEvents
+} from './map-events';
 
 export interface PaddingOptions {
   top: number;

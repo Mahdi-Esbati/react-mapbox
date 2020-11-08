@@ -21,12 +21,18 @@ const layerPaint = {
   'heatmap-weight': {
     property: 'priceIndicator',
     type: 'exponential',
-    stops: [[0, 0], [5, 2]]
+    stops: [
+      [0, 0],
+      [5, 2]
+    ]
   },
   // Increase the heatmap color weight weight by zoom level
   // heatmap-ntensity is a multiplier on top of heatmap-weight
   'heatmap-intensity': {
-    stops: [[0, 0], [5, 1.2]]
+    stops: [
+      [0, 0],
+      [5, 1.2]
+    ]
   },
   // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
   // Begin color ramp at 0-stop with a 0-transparancy color
@@ -50,7 +56,10 @@ const layerPaint = {
   ],
   // Adjust the heatmap radius by zoom level
   'heatmap-radius': {
-    stops: [[0, 1], [5, 50]]
+    stops: [
+      [0, 1],
+      [5, 50]
+    ]
   }
 };
 
