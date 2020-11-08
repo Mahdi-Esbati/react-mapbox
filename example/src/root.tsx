@@ -1,7 +1,8 @@
 import * as React from 'react';
+import { browserHistory, Link, RouteComponentProps } from 'react-router';
 import styled from 'styled-components';
-import { Link, browserHistory, RouteComponentProps } from 'react-router';
-import { paths } from './index';
+
+import { paths } from '.';
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const NavLink = styled(Link)`
   padding-right: 10px;
   color: #34495e;
   border-right: 2px solid rgb(235, 235, 235);
-  font-weight: ${({ selected }) => selected ? 'bold' : 'inherit'}
+  font-weight: ${({ selected }) => (selected ? 'bold' : 'inherit')};
 `;
 
 const ExternalLink = styled.a`
@@ -48,13 +49,16 @@ export interface State {
   selected: number;
 }
 
-export default class Root extends React.Component<RouteComponentProps<void, void>, State> {
+export default class Root extends React.Component<
+  RouteComponentProps<void, void>,
+  State
+> {
   public state = {
     selected: paths.indexOf(this.props.location.pathname)
-  }
+  };
 
   public UNSAFE_componentWillMount() {
-    browserHistory.listen(ev => {
+    browserHistory.listen((ev) => {
       this.setState({
         selected: paths.indexOf(ev.pathname)
       });
@@ -69,11 +73,17 @@ export default class Root extends React.Component<RouteComponentProps<void, void
       <Container>
         <Header>
           <Nav>
-            <NavLink selected={selected === 0} to={paths[0]}>Home</NavLink>
-            <NavLink selected={selected === 1} to={paths[1]}>Demos</NavLink>
-            <NavLink selected={selected === 2} to={paths[2]}>Documentation</NavLink>
+            <NavLink selected={selected === 0} to={paths[0]}>
+              Home
+            </NavLink>
+            <NavLink selected={selected === 1} to={paths[1]}>
+              Demos
+            </NavLink>
+            <NavLink selected={selected === 2} to={paths[2]}>
+              Documentation
+            </NavLink>
             <ExternalLink
-              href="https://github.com/alex3165/react-mapbox-gl"
+              href="https://github.com/Mahdi-Esbati/react-mapbox"
               target="_blank"
               style={{ borderRight: 0 }}
             >
@@ -85,4 +95,4 @@ export default class Root extends React.Component<RouteComponentProps<void, void
       </Container>
     );
   }
-};
+}

@@ -1,23 +1,28 @@
 ## Above 2.0.0
 
-See [release notes](https://github.com/alex3165/react-mapbox-gl/releases)
+See [release notes](https://github.com/Mahdi-Esbati/react-mapbox/releases)
 
-## 2.0.* (June 2017)
+## 2.0.\* (June 2017)
+
 ### Breaking changes
+
 - `ReactMapboxGl` is now a factory that return a React Component, see documentation on how to use it
 
 ### Feature
+
 - `Feature` component has a `draggable` property
 - The map component returned by the factory accept all the events
 - Listen events only on the concerned `Layer`, should improve performances
 
 ### Bug fixes
+
 - `Cluster` component bugs have been fixed, it is tested and should behave as expected
 - Fix issue when using `text-align: center` on a parent tag of the map
 - Fix wrong unmounting of the map
 - Fix `Layer` and `GeoJsonLayer` when changing the style of the map
 
 ### Others
+
 - Improvement of the documentation
 - Brand new website for the examples with more examples
 - Add more tests
@@ -27,8 +32,8 @@ See [release notes](https://github.com/alex3165/react-mapbox-gl/releases)
 ## 1.4.0 (March 14 2017)
 
 - Breaking change : `onHover` is now `onMouseEnter`, `onEndHover` is now `onMouseLeave`
-- Breaking change: `GEOJSONLayer` is not displaying all the layers in your geojson source, you have to specify which source to display by passing the correct props, see [note](https://github.com/alex3165/react-mapbox-gl/blob/master/docs/API.md#geojsonlayer)
-- Fix issue when unmounting all the features `setData` is not called and the features doesn't disappear. [PR](https://github.com/alex3165/react-mapbox-gl/pull/152)
+- Breaking change: `GEOJSONLayer` is not displaying all the layers in your geojson source, you have to specify which source to display by passing the correct props, see [note](https://github.com/Mahdi-Esbati/react-mapbox/blob/master/docs/API.md#geojsonlayer)
+- Fix issue when unmounting all the features `setData` is not called and the features doesn't disappear. [PR](https://github.com/Mahdi-Esbati/react-mapbox/pull/152)
 
 ## 1.0.0 (February 13 2017)
 
@@ -57,7 +62,6 @@ See [release notes](https://github.com/alex3165/react-mapbox-gl/releases)
 - Update API documentation
 - A change of the style geojson passed down to the map component will update the style of the map itself using mapbox `setStyle`
 - Get rid of `lodash` for internal methods and smaller packages
-
 
 ## 0.7.0 (June 15 2016)
 
