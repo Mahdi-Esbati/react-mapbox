@@ -1,7 +1,8 @@
-import * as React from 'react';
 import { Map } from 'mapbox-gl';
-import { AnchorLimits } from './util/types';
+import * as React from 'react';
+
 import { withMap } from './context';
+import { AnchorLimits } from './util/types';
 
 const containerStyle: React.CSSProperties = {
   position: 'absolute',
@@ -109,8 +110,8 @@ export class RotationControl extends React.Component<Props, State> {
 
   private onMapRotate = () => {
     const { map } = this.props;
-    // tslint:disable-next-line:no-any
     const rotate = `rotate(${
+      // tslint:disable-next-line: no-any
       (map as any).transform.angle * (180 / Math.PI)
     }deg)`;
 
