@@ -10,7 +10,7 @@
     "member-ordering": [false],
     "object-literal-key-quotes": [false],
     "semicolon": [false],
-    "arrow-parens": [true, "ban-single-arg-parens"],
+    "arrow-parens": [false, "ban-single-arg-parens"],
     "jsx-wrap-multiline": false,
     "jsx-no-multiline-js": ["none"],
     "no-any": true

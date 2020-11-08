@@ -1,5 +1,5 @@
-import * as React from 'react';
 import * as MapboxGl from 'mapbox-gl';
+import * as React from 'react';
 
 export const MapContext = React.createContext(undefined) as React.Context<
   MapboxGl.Map | undefined
