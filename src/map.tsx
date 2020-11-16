@@ -1,16 +1,11 @@
-import isEqual from 'deep-equal';
 import * as MapboxGl from 'mapbox-gl';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 
 import { MapContext } from './context';
-import {
-  Events,
-  events,
-  Listeners,
-  listenEvents,
-  updateEvents
-} from './map-events';
+import { Events, events, Listeners, listenEvents, updateEvents } from './map-events';
+
+const isEqual = require('deep-equal'); //tslint:disable-line
 
 export interface PaddingOptions {
   top: number;
@@ -98,9 +93,9 @@ export interface FactoryParameters {
   refreshExpiredTiles?: boolean;
   failIfMajorPerformanceCaveat?: boolean;
   bearingSnap?: number;
+  injectCSS?: boolean;
   transformRequest?: RequestTransformFunction;
   antialias?: boolean;
-  mapInstance?: MapboxGl.Map;
 }
 
 // Satisfy typescript pitfall with defaultProps
@@ -142,10 +137,15 @@ const ReactMapboxFactory = ({
   refreshExpiredTiles = true,
   failIfMajorPerformanceCaveat = false,
   bearingSnap = 7,
+  injectCSS = true,
   antialias = false,
-  mapInstance,
   transformRequest
 }: FactoryParameters) => {
+  if (injectCSS) {
+    // tslint:disable-next-line:no-submodule-imports
+    require('mapbox-gl/dist/mapbox-gl.css');
+  }
+
   return class ReactMapboxGl extends React.Component<Props & Events, State> {
     public static defaultProps = {
       // tslint:disable-next-line:no-any
@@ -161,7 +161,7 @@ const ReactMapboxFactory = ({
     };
 
     public state: State = {
-      map: mapInstance,
+      map: undefined,
       ready: false
     };
 
@@ -257,15 +257,8 @@ const ReactMapboxFactory = ({
         opts.pitch = pitch[0];
       }
 
-      // This is a hack to allow injecting the map instance, which assists
-      // in testing and theoretically provides a means for users to inject
-      // their own map instance.
-      let map = this.state.map;
-
-      if (!map) {
-        map = new MapboxGl.Map(opts);
-        this.setState({ map });
-      }
+      const map = new MapboxGl.Map(opts);
+      this.setState({ map });
 
       if (fitBounds) {
         map.fitBounds(fitBounds, fitBoundsOptions, { fitboundUpdate: true });
@@ -278,7 +271,7 @@ const ReactMapboxFactory = ({
         }
 
         if (onStyleLoad) {
-          onStyleLoad(map!, evt);
+          onStyleLoad(map, evt);
         }
       });
 
@@ -294,14 +287,14 @@ const ReactMapboxFactory = ({
       }
     }
 
-    public componentDidUpdate(prevProps: Props & Events) {
+    public UNSAFE_componentWillReceiveProps(nextProps: Props & Events) {
       const { map } = this.state;
       if (!map) {
         return null;
       }
 
       // Update event listeners
-      this.listeners = updateEvents(this.listeners, this.props, map);
+      this.listeners = updateEvents(this.listeners, nextProps, map);
 
       const center = map.getCenter();
       const zoom = map.getZoom();
@@ -309,47 +302,47 @@ const ReactMapboxFactory = ({
       const pitch = map.getPitch();
 
       const didZoomUpdate =
-        prevProps.zoom !== this.props.zoom &&
-        (this.props.zoom && this.props.zoom[0]) !== zoom;
+        this.props.zoom !== nextProps.zoom &&
+        (nextProps.zoom && nextProps.zoom[0]) !== zoom;
 
       const didCenterUpdate =
-        prevProps.center !== this.props.center &&
-        ((this.props.center && this.props.center[0]) !== center.lng ||
-          (this.props.center && this.props.center[1]) !== center.lat);
+        this.props.center !== nextProps.center &&
+        ((nextProps.center && nextProps.center[0]) !== center.lng ||
+          (nextProps.center && nextProps.center[1]) !== center.lat);
 
       const didBearingUpdate =
-        prevProps.bearing !== this.props.bearing &&
-        (this.props.bearing && this.props.bearing[0]) !== bearing;
+        this.props.bearing !== nextProps.bearing &&
+        (nextProps.bearing && nextProps.bearing[0]) !== bearing;
 
       const didPitchUpdate =
-        prevProps.pitch !== this.props.pitch &&
-        (this.props.pitch && this.props.pitch[0]) !== pitch;
+        this.props.pitch !== nextProps.pitch &&
+        (nextProps.pitch && nextProps.pitch[0]) !== pitch;
 
-      if (this.props.maxBounds) {
-        const didMaxBoundsUpdate = prevProps.maxBounds !== this.props.maxBounds;
+      if (nextProps.maxBounds) {
+        const didMaxBoundsUpdate = this.props.maxBounds !== nextProps.maxBounds;
 
         if (didMaxBoundsUpdate) {
-          map.setMaxBounds(this.props.maxBounds);
+          map.setMaxBounds(nextProps.maxBounds);
         }
       }
 
-      if (this.props.fitBounds) {
-        const { fitBounds } = prevProps;
+      if (nextProps.fitBounds) {
+        const { fitBounds } = this.props;
 
         const didFitBoundsUpdate =
-          fitBounds !== this.props.fitBounds || // Check for reference equality
-          this.props.fitBounds.length !== (fitBounds && fitBounds.length) || // Added element
+          fitBounds !== nextProps.fitBounds || // Check for reference equality
+          nextProps.fitBounds.length !== (fitBounds && fitBounds.length) || // Added element
           !!fitBounds.filter((c, i) => {
             // Check for equality
-            const nc = this.props.fitBounds && this.props.fitBounds[i];
+            const nc = nextProps.fitBounds && nextProps.fitBounds[i];
             return c[0] !== (nc && nc[0]) || c[1] !== (nc && nc[1]);
           })[0];
 
         if (
           didFitBoundsUpdate ||
-          !isEqual(prevProps.fitBoundsOptions, this.props.fitBoundsOptions)
+          !isEqual(this.props.fitBoundsOptions, nextProps.fitBoundsOptions)
         ) {
-          map.fitBounds(this.props.fitBounds, this.props.fitBoundsOptions, {
+          map.fitBounds(nextProps.fitBounds, nextProps.fitBoundsOptions, {
             fitboundUpdate: true
           });
         }
@@ -361,21 +354,21 @@ const ReactMapboxFactory = ({
         didBearingUpdate ||
         didPitchUpdate
       ) {
-        const mm: string = this.props.movingMethod || defaultMovingMethod;
-        const { flyToOptions, animationOptions } = this.props;
+        const mm: string = nextProps.movingMethod || defaultMovingMethod;
+        const { flyToOptions, animationOptions } = nextProps;
 
         map[mm]({
           ...animationOptions,
           ...flyToOptions,
-          zoom: didZoomUpdate && this.props.zoom ? this.props.zoom[0] : zoom,
-          center: didCenterUpdate ? this.props.center : center,
-          bearing: didBearingUpdate ? this.props.bearing : bearing,
-          pitch: didPitchUpdate ? this.props.pitch : pitch
+          zoom: didZoomUpdate && nextProps.zoom ? nextProps.zoom[0] : zoom,
+          center: didCenterUpdate ? nextProps.center : center,
+          bearing: didBearingUpdate ? nextProps.bearing : bearing,
+          pitch: didPitchUpdate ? nextProps.pitch : pitch
         });
       }
 
-      if (!isEqual(prevProps.style, this.props.style)) {
-        map.setStyle(this.props.style);
+      if (!isEqual(this.props.style, nextProps.style)) {
+        map.setStyle(nextProps.style);
       }
 
       return null;
