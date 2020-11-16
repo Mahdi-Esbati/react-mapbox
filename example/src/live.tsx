@@ -4,14 +4,12 @@ import styled from 'styled-components';
 
 const Wrapper =
   // eslint-disable-next-line
-  styled.div <
-  { full: boolean } >
-  `
-  background-color: #363431;
-  max-height: calc(100vh - 74px);
-  display: ${props => (props.full ? 'block' : 'flex')};
-  overflow: auto;
-`;
+  styled.div<{ full: boolean }>`
+    background-color: #363431;
+    max-height: calc(100vh - 74px);
+    display: ${(props) => (props.full ? 'block' : 'flex')};
+    overflow: auto;
+  `;
 
 const StyledEditor = styled(LiveEditor)`
   font-family: 'Source Code Pro', monospace;

@@ -47,10 +47,9 @@ export interface Props {
 }
 
 class Dropdown extends React.Component<Props, {}> {
-
   public state = {
     value: ''
-  }
+  };
 
   private onSelectItem = (index: number) => {
     this.setState({
@@ -76,23 +75,20 @@ class Dropdown extends React.Component<Props, {}> {
 
     return (
       <Container>
-        <Input onChange={this.onSearch} value={value} placeholder="Search for a venue"/>
-        {
-          value.length > 2 && (
-            <List>
-              {
-                options.map((el, index) => (
-                  <Item
-                    key={index}
-                    onClick={this.onSelectItem.bind(this, index)}
-                  >
-                    {el.name}
-                  </Item>
-                ))
-              }
-            </List>
-          )
-        }
+        <Input
+          onChange={this.onSearch}
+          value={value}
+          placeholder="Search for a venue"
+        />
+        {value.length > 2 && (
+          <List>
+            {options.map((el, index) => (
+              <Item key={index} onClick={this.onSelectItem.bind(this, index)}>
+                {el.name}
+              </Item>
+            ))}
+          </List>
+        )}
       </Container>
     );
   }

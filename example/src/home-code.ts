@@ -1,4 +1,4 @@
-export default (`
+export default `
 const Map = ReactMapboxGl({ accessToken });
 const zoom = [8];
 
@@ -18,4 +18,4 @@ render(
       </Layer>
   </Map>
 );
-`).trim();
+`.trim();
