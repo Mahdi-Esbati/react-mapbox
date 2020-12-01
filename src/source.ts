@@ -1,7 +1,8 @@
+import { GeoJSONSource, GeoJSONSourceRaw, Layer, Map } from 'mapbox-gl';
 import * as React from 'react';
-import { Map, GeoJSONSource, GeoJSONSourceRaw, Layer } from 'mapbox-gl';
-import { TilesJson } from './util/types';
+
 import { withMap } from './context';
+import { TilesJson } from './util/types';
 
 export interface Props {
   id: string;
@@ -144,4 +145,4 @@ export class Source extends React.Component<Props> {
   }
 }
 
-export default withMap(Source);
+export default withMap<Props>(Source);

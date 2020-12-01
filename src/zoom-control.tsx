@@ -1,7 +1,8 @@
-import * as React from 'react';
 import { Map } from 'mapbox-gl';
-import { AnchorLimits } from './util/types';
+import * as React from 'react';
+
 import { withMap } from './context';
+import { AnchorLimits } from './util/types';
 
 const containerStyle: React.CSSProperties = {
   position: 'absolute',

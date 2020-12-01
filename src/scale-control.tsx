@@ -1,7 +1,8 @@
-import * as React from 'react';
 import { Map } from 'mapbox-gl';
-import { AnchorLimits } from './util/types';
+import * as React from 'react';
+
 import { withMap } from './context';
+import { AnchorLimits } from './util/types';
 
 const triggerEvents = ['moveend', 'touchend', 'zoomend'];
 
@@ -85,7 +86,7 @@ export interface State {
 export class ScaleControl extends React.Component<Props, State> {
   public static defaultProps = {
     measurement: MEASUREMENTS[0],
-    position: POSITIONS[2]
+    position: POSITIONS[2] as AnchorLimits
   };
 
   public state = {
@@ -197,4 +198,4 @@ export class ScaleControl extends React.Component<Props, State> {
   }
 }
 
-export default withMap(ScaleControl);
+export default withMap<Props>(ScaleControl);

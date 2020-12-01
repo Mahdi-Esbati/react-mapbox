@@ -1,11 +1,12 @@
-import * as React from 'react';
 import * as MapboxGL from 'mapbox-gl';
-const isEqual = require('deep-equal'); //tslint:disable-line
-import diff from './util/diff';
-import { generateID } from './util/uid';
-import { Sources, LayerType } from './util/types';
-import { withMap } from './context';
+import * as React from 'react';
 
+import { withMap } from './context';
+import diff from './util/diff';
+import { LayerType, Sources } from './util/types';
+import { generateID } from './util/uid';
+
+const isEqual = require('deep-equal'); //tslint:disable-line
 const types = ['symbol', 'line', 'fill', 'fill-extrusion', 'circle'];
 const toCamelCase = (str: string) =>
   str
@@ -334,4 +335,4 @@ export class GeoJSONLayer extends React.Component<Props> {
   }
 }
 
-export default withMap(GeoJSONLayer);
+export default withMap<Props>(GeoJSONLayer);
