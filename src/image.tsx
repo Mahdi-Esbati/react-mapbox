@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { withMap } from './context';
 import { Map } from 'mapbox-gl';
+import * as React from 'react';
+
+import { withMap } from './context';
 
 interface ImageOptionsType {
   pixelRatio?: number;
@@ -85,4 +86,4 @@ class Image extends React.Component<Props> {
   }
 }
 
-export default withMap(Image);
+export default withMap<Props>(Image);
