@@ -83,7 +83,7 @@ export interface LayerCommonProps {
 export interface OwnProps {
   id: string;
   draggedChildren?: JSX.Element[];
-  map: MapboxGL.Map;
+  map?: MapboxGL.Map;
 }
 
 export type Props = LayerCommonProps & LayerEvents & OwnProps;
@@ -213,18 +213,18 @@ export default class Layer extends React.Component<Props> {
     if (images) {
       const normalizedImages = !Array.isArray(images[0]) ? [images] : images;
       (normalizedImages as ImageDefinitionWithOptions[])
-        .filter((image) => !map.hasImage(image[0]))
+        .filter((image) => !map!.hasImage(image[0]))
         .forEach((image) => {
-          map.addImage(image[0], image[1], image[2]);
+          map!.addImage(image[0], image[1], image[2]);
         });
     }
 
-    if (!sourceId && !map.getSource(id)) {
-      map.addSource(id, this.source);
+    if (!sourceId && !map!.getSource(id)) {
+      map!.addSource(id, this.source);
     }
 
-    if (!map.getLayer(id)) {
-      map.addLayer(layer, before);
+    if (!map!.getLayer(id)) {
+      map!.addLayer(layer, before);
     }
 
     (Object.entries(eventToHandler) as Array<
@@ -232,7 +232,7 @@ export default class Layer extends React.Component<Props> {
     >).forEach(([event, propName]) => {
       const handler = this.props[propName];
       if (handler) {
-        map.on(event, id, handler);
+        map!.on(event, id, handler);
       }
     });
   };
@@ -240,7 +240,7 @@ export default class Layer extends React.Component<Props> {
   private onStyleDataChange = () => {
     // if the style of the map has been updated and we don't have layer anymore,
     // add it back to the map and force re-rendering to redraw it
-    if (!this.props.map.getLayer(this.props.id)) {
+    if (!this.props.map!.getLayer(this.props.id)) {
       this.initialize();
       this.forceUpdate();
     }
@@ -251,42 +251,42 @@ export default class Layer extends React.Component<Props> {
 
     this.initialize();
 
-    map.on('styledata', this.onStyleDataChange);
+    map!.on('styledata', this.onStyleDataChange);
   }
 
   public componentWillUnmount() {
     const { map } = this.props;
     const { images, id } = this.props;
 
-    if (!map || !map.getStyle()) {
+    if (!map || !map!.getStyle()) {
       return;
     }
 
-    map.off('styledata', this.onStyleDataChange);
+    map!.off('styledata', this.onStyleDataChange);
 
     (Object.entries(eventToHandler) as Array<
       [keyof EventToHandlersType, keyof LayerEvents]
     >).forEach(([event, propName]) => {
       const handler = this.props[propName];
       if (handler) {
-        map.off(event, id, handler);
+        map!.off(event, id, handler);
       }
     });
 
-    if (map.getLayer(id)) {
-      map.removeLayer(id);
+    if (map!.getLayer(id)) {
+      map!.removeLayer(id);
     }
     // if pointing to an existing source, don't remove
     // as other layers may be dependent upon it
     if (!this.props.sourceId) {
-      map.removeSource(id);
+      map!.removeSource(id);
     }
 
     if (images) {
       const normalizedImages = !Array.isArray(images[0]) ? [images] : images;
       (normalizedImages as ImageDefinitionWithOptions[])
         .map(([key, ...rest]) => key)
-        .forEach(map.removeImage.bind(map));
+        .forEach(map!.removeImage.bind(map));
     }
   }
 
@@ -306,7 +306,7 @@ export default class Layer extends React.Component<Props> {
       const paintDiff = diff(paint, this.props.paint);
 
       Object.keys(paintDiff).forEach((key) => {
-        map.setPaintProperty(id, key, paintDiff[key]);
+        map!.setPaintProperty(id, key, paintDiff[key]);
       });
     }
 
@@ -314,21 +314,21 @@ export default class Layer extends React.Component<Props> {
       const layoutDiff = diff(layout, this.props.layout);
 
       Object.keys(layoutDiff).forEach((key) => {
-        map.setLayoutProperty(id, key, layoutDiff[key]);
+        map!.setLayoutProperty(id, key, layoutDiff[key]);
       });
     }
 
     if (!isEqual(this.props.filter, filter)) {
-      map.setFilter(id, this.props.filter);
+      map!.setFilter(id, this.props.filter);
     }
 
     if (before !== this.props.before) {
-      map.moveLayer(id, this.props.before);
+      map!.moveLayer(id, this.props.before);
     }
 
     if (minZoom !== this.props.minZoom || maxZoom !== this.props.maxZoom) {
       // TODO: Fix when PR https://github.com/DefinitelyTyped/DefinitelyTyped/pull/22036 is merged
-      map.setLayerZoomRange(id, this.props.minZoom!, this.props.maxZoom!);
+      map!.setLayerZoomRange(id, this.props.minZoom!, this.props.maxZoom!);
     }
 
     (Object.entries(eventToHandler) as Array<
@@ -339,11 +339,11 @@ export default class Layer extends React.Component<Props> {
 
       if (oldHandler !== newHandler) {
         if (oldHandler) {
-          map.off(event, id, oldHandler);
+          map!.off(event, id, oldHandler);
         }
 
         if (newHandler) {
-          map.on(event, id, newHandler);
+          map!.on(event, id, newHandler);
         }
       }
     });
@@ -386,7 +386,7 @@ export default class Layer extends React.Component<Props> {
       .map(({ props }, id) => this.makeFeature(props, id))
       .filter(Boolean);
 
-    const source = map.getSource(
+    const source = map!.getSource(
       sourceId || this.props.id
     ) as MapboxGL.GeoJSONSource;
 
