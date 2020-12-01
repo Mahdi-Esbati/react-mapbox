@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { LngLatBounds, Map } from 'mapbox-gl';
-import { Props as MarkerProps } from './marker';
-import Supercluster from 'supercluster';
-import * as GeoJSON from 'geojson';
 import bbox from '@turf/bbox';
-import { polygon, featureCollection } from '@turf/helpers';
+import { featureCollection, polygon } from '@turf/helpers';
+import * as GeoJSON from 'geojson';
+import { LngLatBounds, Map } from 'mapbox-gl';
+import * as React from 'react';
+import Supercluster from 'supercluster';
+
 import { withMap } from './context';
+import { Props as MarkerProps } from './marker';
 
 export interface Props {
   ClusterMarkerFactory(
@@ -220,4 +221,4 @@ export class Cluster extends React.Component<Props, State> {
   }
 }
 
-export default withMap(Cluster);
+export default withMap<Props>(Cluster);
