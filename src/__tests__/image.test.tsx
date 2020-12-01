@@ -1,7 +1,8 @@
+import { mount } from 'enzyme';
 import * as React from 'react';
+
 import Image from '../image';
 import { getMapMock } from '../jest/util';
-import { mount } from 'enzyme';
 
 describe('Image', () => {
   it('Should add image on mount', () => {
@@ -16,8 +17,8 @@ describe('Image', () => {
     mount(
       <Image
         id={imageId}
-        map={mapMock}
-        data={imageData}
+        map={mapMock as any}
+        data={imageData as any}
         options={imageOptions}
         onError={onError}
         onLoaded={onLoaded}
@@ -48,8 +49,8 @@ describe('Image', () => {
     const component = mount(
       <Image
         id={imageId}
-        map={mapMock}
-        data={imageData}
+        map={mapMock as any}
+        data={imageData as any}
         options={imageOptions}
         onError={onError}
         onLoaded={onLoaded}
@@ -78,8 +79,8 @@ describe('Image', () => {
     const component = mount(
       <Image
         id={imageId}
-        map={mapMock}
-        data={imageData}
+        map={mapMock as any}
+        data={imageData as any}
         options={imageOptions}
         onError={onError}
         onLoaded={onLoaded}

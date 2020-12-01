@@ -8,7 +8,7 @@ export interface Props {
   id: string;
   geoJsonSource?: GeoJSONSourceRaw;
   tileJsonSource?: TilesJson;
-  map: Map;
+  map?: Map;
   onSourceAdded?: (source: GeoJSONSource | TilesJson) => void;
   onSourceLoaded?: (source: GeoJSONSource | TilesJson) => void;
 }
@@ -23,7 +23,7 @@ export class Source extends React.Component<Props> {
   private onStyleDataChange = () => {
     // if the style of the map has been updated we won't have any sources anymore,
     // add it back to the map and force re-rendering to redraw it
-    if (!this.props.map.getLayer(this.id)) {
+    if (!this.props.map!.getLayer(this.id)) {
       this.initialize();
       this.forceUpdate();
     }
@@ -32,24 +32,24 @@ export class Source extends React.Component<Props> {
   public componentDidMount() {
     const { map } = this.props;
 
-    map.on('styledata', this.onStyleDataChange);
+    map!.on('styledata', this.onStyleDataChange);
     this.initialize();
   }
 
   private initialize = () => {
     const { map } = this.props;
     const { geoJsonSource, tileJsonSource, onSourceAdded } = this.props;
-    if (!map.getSource(this.id) && (geoJsonSource || tileJsonSource)) {
+    if (!map!.getSource(this.id) && (geoJsonSource || tileJsonSource)) {
       if (geoJsonSource) {
-        map.addSource(this.id, geoJsonSource);
+        map!.addSource(this.id, geoJsonSource);
       } else if (tileJsonSource) {
-        map.addSource(this.id, tileJsonSource);
+        map!.addSource(this.id, tileJsonSource);
       }
 
-      map.on('sourcedata', this.onData);
+      map!.on('sourcedata', this.onData);
 
       if (onSourceAdded) {
-        onSourceAdded(map.getSource(this.id) as GeoJSONSource | TilesJson);
+        onSourceAdded(map!.getSource(this.id) as GeoJSONSource | TilesJson);
       }
     }
   };
@@ -57,8 +57,8 @@ export class Source extends React.Component<Props> {
   private onData = () => {
     const { map } = this.props;
 
-    const source = map.getSource(this.props.id) as GeoJSONSource;
-    if (!source || !map.isSourceLoaded(this.props.id)) {
+    const source = map!.getSource(this.props.id) as GeoJSONSource;
+    if (!source || !map!.isSourceLoaded(this.props.id)) {
       return;
     }
 
@@ -70,14 +70,14 @@ export class Source extends React.Component<Props> {
     if (source && this.props.geoJsonSource && this.props.geoJsonSource.data) {
       source.setData(this.props.geoJsonSource.data);
     }
-    map.off('sourcedata', this.onData);
+    map!.off('sourcedata', this.onData);
   };
 
   public removeSource(): LayerWithBefore[] {
     const { map } = this.props;
 
-    if (map.getSource(this.id)) {
-      let { layers = [] } = map.getStyle();
+    if (map!.getSource(this.id)) {
+      let { layers = [] } = map!.getStyle();
 
       layers = layers
         .map((layer, idx) => {
@@ -86,9 +86,9 @@ export class Source extends React.Component<Props> {
         })
         .filter((layer) => layer.source === this.id);
 
-      layers.forEach((layer) => map.removeLayer(layer.id));
+      layers.forEach((layer) => map!.removeLayer(layer.id));
 
-      map.removeSource(this.id);
+      map!.removeSource(this.id);
 
       return layers.reverse();
     }
@@ -99,11 +99,11 @@ export class Source extends React.Component<Props> {
   public componentWillUnmount() {
     const { map } = this.props;
 
-    if (!map || !map.getStyle()) {
+    if (!map || !map!.getStyle()) {
       return;
     }
 
-    map.off('styledata', this.onStyleDataChange);
+    map!.off('styledata', this.onStyleDataChange);
     this.removeSource();
   }
 
@@ -121,9 +121,9 @@ export class Source extends React.Component<Props> {
 
       if (hasNewTilesSource) {
         const layers = this.removeSource();
-        map.addSource(this.id, this.props.tileJsonSource);
+        map!.addSource(this.id, this.props.tileJsonSource);
 
-        layers.forEach((layer) => map.addLayer(layer, layer.before));
+        layers.forEach((layer) => map!.addLayer(layer, layer.before));
       }
     }
 
@@ -133,9 +133,9 @@ export class Source extends React.Component<Props> {
       this.props.geoJsonSource &&
       this.props.geoJsonSource.data !== geoJsonSource.data &&
       this.props.geoJsonSource.data &&
-      map.getSource(this.id)
+      map!.getSource(this.id)
     ) {
-      const source = map.getSource(this.id) as GeoJSONSource;
+      const source = map!.getSource(this.id) as GeoJSONSource;
       source.setData(this.props.geoJsonSource.data);
     }
   }

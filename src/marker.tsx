@@ -1,8 +1,9 @@
-import * as React from 'react';
-import ProjectedLayer from './projected-layer';
 import * as GeoJSON from 'geojson';
-import { getClassName } from './util/classname';
 import { Point } from 'mapbox-gl';
+import * as React from 'react';
+
+import ProjectedLayer from './projected-layer';
+import { getClassName } from './util/classname';
 import { Anchor } from './util/types';
 
 export interface Props {
@@ -20,12 +21,17 @@ export interface Props {
 
 const defaultClassName = ['mapboxgl-marker'];
 
-export const Marker: React.StatelessComponent<Props> = (props) => (
-  <ProjectedLayer
-    {...{ ...props }}
-    type="marker"
-    className={getClassName(defaultClassName, props.className)}
-  />
-);
+export const Marker: React.FunctionComponent<Props> = (props) => {
+  const { coordinates, offset, ...otherProps } = props;
+  return (
+    <ProjectedLayer
+      coordinates={coordinates as [number, number]}
+      offset={offset as [number, number]}
+      {...{ ...otherProps }}
+      type="marker"
+      className={getClassName(defaultClassName, props.className)}
+    />
+  );
+};
 
 export default Marker;

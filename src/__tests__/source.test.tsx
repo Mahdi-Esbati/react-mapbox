@@ -1,6 +1,8 @@
+import { GeoJSONSourceRaw } from 'mapbox-gl';
 import * as React from 'react';
+
+import { getMapMock, mountWithMap } from '../jest/util';
 import Source from '../source';
-import { mountWithMap, getMapMock } from '../jest/util';
 
 describe('Source', () => {
   const EMPTY_GEOJSON_SRC = {
@@ -18,7 +20,10 @@ describe('Source', () => {
     const sourceId = 'source-1';
 
     mountWithMap(
-      <Source id={sourceId} geoJsonSource={EMPTY_GEOJSON_SRC} />,
+      <Source
+        id={sourceId}
+        geoJsonSource={EMPTY_GEOJSON_SRC as GeoJSONSourceRaw}
+      />,
       mapMock
     );
 

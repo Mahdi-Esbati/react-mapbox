@@ -29,7 +29,7 @@ export interface Props {
   style?: React.CSSProperties;
   className?: string;
   tabIndex?: number;
-  map: Map;
+  map?: Map;
 }
 
 export interface State {
@@ -73,16 +73,16 @@ export class Cluster extends React.Component<Props, State> {
       this.childrenChange(children as Array<React.ReactElement<MarkerProps>>);
     }
 
-    map.on('move', this.mapChange);
-    map.on('zoom', this.mapChange);
+    map!.on('move', this.mapChange);
+    map!.on('zoom', this.mapChange);
     this.mapChange();
   }
 
   public componentWillUnmount() {
     const { map } = this.props;
 
-    map.off('move', this.mapChange);
-    map.off('zoom', this.mapChange);
+    map!.off('move', this.mapChange);
+    map!.off('zoom', this.mapChange);
   }
 
   public componentDidUpdate(prevProps: Props) {
@@ -110,14 +110,14 @@ export class Cluster extends React.Component<Props, State> {
     const { map } = this.props;
     const { superC, clusterPoints } = this.state;
 
-    const zoom = map.getZoom();
-    const canvas = map.getCanvas();
+    const zoom = map!.getZoom();
+    const canvas = map!.getCanvas();
     const w = canvas.width;
     const h = canvas.height;
-    const upLeft = map.unproject([0, 0]).toArray();
-    const upRight = map.unproject([w, 0]).toArray();
-    const downRight = map.unproject([w, h]).toArray();
-    const downLeft = map.unproject([0, h]).toArray();
+    const upLeft = map!.unproject([0, 0]).toArray();
+    const upRight = map!.unproject([w, 0]).toArray();
+    const downRight = map!.unproject([w, h]).toArray();
+    const downLeft = map!.unproject([0, h]).toArray();
     const newPoints = superC.getClusters(
       bbox(polygon([[upLeft, upRight, downRight, downLeft, upLeft]])),
       Math.round(zoom)
@@ -159,7 +159,7 @@ export class Cluster extends React.Component<Props, State> {
         limit || Infinity,
         offset
       )
-      .map((leave: GeoJSON.Feature) => this.featureClusterMap.get(leave));
+      .map((leave: GeoJSON.Feature) => this.featureClusterMap!.get(leave));
   };
 
   public zoomToClusterBounds = (event: React.MouseEvent<HTMLElement>) => {
@@ -180,7 +180,7 @@ export class Cluster extends React.Component<Props, State> {
     const childrenBbox = bbox(featureCollection(children));
     // https://github.com/mapbox/mapbox-gl-js/issues/5249
     // tslint:disable-next-line:no-any
-    this.props.map.fitBounds(LngLatBounds.convert(childrenBbox as any), {
+    this.props.map!.fitBounds(LngLatBounds.convert(childrenBbox as any), {
       padding: this.props.zoomOnClickPadding!
     });
   };

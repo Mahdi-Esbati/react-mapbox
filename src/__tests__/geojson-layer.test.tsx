@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import GeoJSONLayer from '../geojson-layer';
 import { getMapMock, mountWithMap } from '../jest/util';
 
@@ -12,8 +13,8 @@ describe('GeoJSONLayer', () => {
     const GeoJSONLayerComp = (
       <GeoJSONLayer
         fillPaint={fillPaint}
-        data={data}
-        layerOptions={{ minzoom: 13 }}
+        data={data as any}
+        layerOptions={{ minzoom: 13 } as any}
       />
     );
 
@@ -37,7 +38,9 @@ describe('GeoJSONLayer', () => {
   });
 
   it('Should call addLayer when no layerOptions provided', () => {
-    const GeoJSONLayerComp = <GeoJSONLayer fillPaint={fillPaint} data={data} />;
+    const GeoJSONLayerComp = (
+      <GeoJSONLayer fillPaint={fillPaint} data={data as any} />
+    );
     const mapMock = getMapMock();
 
     mountWithMap(GeoJSONLayerComp, mapMock);
@@ -60,7 +63,11 @@ describe('GeoJSONLayer', () => {
 
   it('Should start listening onClick mouse event', () => {
     const GeoJSONLayerComp = (
-      <GeoJSONLayer fillPaint={fillPaint} data={data} fillOnClick={jest.fn()} />
+      <GeoJSONLayer
+        fillPaint={fillPaint}
+        data={data as any}
+        fillOnClick={jest.fn()}
+      />
     );
     const mapMock = getMapMock();
     mountWithMap(GeoJSONLayerComp, mapMock);

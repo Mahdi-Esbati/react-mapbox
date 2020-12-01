@@ -66,7 +66,7 @@ export interface Props {
   style?: React.CSSProperties;
   className?: string;
   tabIndex?: number;
-  map: Map;
+  map?: Map;
 }
 
 export interface State {
@@ -83,11 +83,11 @@ export class RotationControl extends React.Component<Props, State> {
   };
 
   public componentDidMount() {
-    this.props.map.on('rotate', this.onMapRotate);
+    this.props.map!.on('rotate', this.onMapRotate);
   }
 
   public componentWillUnmount() {
-    this.props.map.off('rotate', this.onMapRotate);
+    this.props.map!.off('rotate', this.onMapRotate);
   }
 
   public compassIcon: HTMLSpanElement | null = null;
@@ -105,7 +105,7 @@ export class RotationControl extends React.Component<Props, State> {
   };
 
   private onClickCompass = () => {
-    this.props.map.resetNorth();
+    this.props.map!.resetNorth();
   };
 
   private onMapRotate = () => {

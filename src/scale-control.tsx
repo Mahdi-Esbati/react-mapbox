@@ -75,7 +75,7 @@ export interface Props {
   style?: React.CSSProperties;
   className?: string;
   tabIndex?: number;
-  map: Map;
+  map?: Map;
 }
 
 export interface State {
@@ -98,14 +98,14 @@ export class ScaleControl extends React.Component<Props, State> {
     this.setScale();
 
     triggerEvents.forEach((event) => {
-      this.props.map.on(event, this.setScale);
+      this.props.map!.on(event, this.setScale);
     });
   }
 
   public componentWillUnmount() {
     if (this.props.map) {
       triggerEvents.forEach((event) => {
-        this.props.map.off(event, this.setScale);
+        this.props.map!.off(event, this.setScale);
       });
     }
   }
@@ -116,7 +116,7 @@ export class ScaleControl extends React.Component<Props, State> {
     // tslint:disable-next-line:no-any
     const clientWidth = (map as any)._canvas.clientWidth;
     // tslint:disable-next-line:no-any
-    const { _ne, _sw } = map.getBounds() as any;
+    const { _ne, _sw } = map!.getBounds() as any;
 
     const totalWidth = this._getDistanceTwoPoints(
       [_sw.lng, _ne.lat],

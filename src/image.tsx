@@ -21,7 +21,7 @@ export interface Props {
   options?: ImageOptionsType;
   onLoaded?: () => void;
   onError?: (error: Error) => void;
-  map: Map;
+  map?: Map;
 }
 
 class Image extends React.Component<Props> {
@@ -41,7 +41,7 @@ class Image extends React.Component<Props> {
       Image.removeImage(this.props);
     }
 
-    if (this.props.map && !this.props.map.hasImage(id)) {
+    if (this.props.map && !this.props.map!.hasImage(id)) {
       // Add missing image to map
       this.loadImage(this.props);
     }
@@ -55,10 +55,10 @@ class Image extends React.Component<Props> {
     const { map, id, url, data, options, onError } = props;
 
     if (data) {
-      map.addImage(id, data, options);
+      map!.addImage(id, data, options);
       this.loaded();
     } else if (url) {
-      map.loadImage(url, (error: Error | undefined, image: ImageDataType) => {
+      map!.loadImage(url, (error: Error | undefined, image: ImageDataType) => {
         if (error) {
           if (onError) {
             onError(error);
@@ -66,7 +66,7 @@ class Image extends React.Component<Props> {
 
           return;
         }
-        map.addImage(id, image, options);
+        map!.addImage(id, image, options);
         this.loaded();
       });
     }
@@ -74,8 +74,8 @@ class Image extends React.Component<Props> {
 
   private static removeImage(props: Props) {
     const { id, map } = props;
-    if (map && map.getStyle()) {
-      map.removeImage(id);
+    if (map && map!.getStyle()) {
+      map!.removeImage(id);
     }
   }
   private loaded() {

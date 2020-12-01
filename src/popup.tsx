@@ -1,8 +1,9 @@
-import * as React from 'react';
-import ProjectedLayer from './projected-layer';
 import * as GeoJSON from 'geojson';
-import { getClassName } from './util/classname';
 import { Point } from 'mapbox-gl';
+import * as React from 'react';
+
+import ProjectedLayer from './projected-layer';
+import { getClassName } from './util/classname';
 import { Anchor } from './util/types';
 
 export interface Props {
@@ -24,12 +25,23 @@ export const defaultClassName = ['mapboxgl-popup'];
 
 export default class Popup extends React.Component<Props> {
   public render() {
-    const { children, className } = this.props;
-    const props = { ...this.props, children: undefined };
+    const {
+      coordinates,
+      offset,
+      children,
+      className,
+      ...otherProps
+    } = this.props;
     const childrenClassName = getClassName(defaultClassName, className);
 
     return (
-      <ProjectedLayer {...props} type="popup" className={childrenClassName}>
+      <ProjectedLayer
+        coordinates={coordinates as [number, number]}
+        offset={offset as [number, number]}
+        {...otherProps}
+        type="popup"
+        className={childrenClassName}
+      >
         <div className="mapboxgl-popup-tip" />
         <div className="mapboxgl-popup-content">{children}</div>
       </ProjectedLayer>

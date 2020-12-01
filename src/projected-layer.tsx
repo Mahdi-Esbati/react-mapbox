@@ -24,7 +24,7 @@ export interface Props {
   style?: React.CSSProperties;
   className: string;
   tabIndex?: number;
-  map: Map;
+  map?: Map;
 }
 
 export class ProjectedLayer extends React.Component<Props, OverlayParams> {
@@ -47,14 +47,14 @@ export class ProjectedLayer extends React.Component<Props, OverlayParams> {
 
   private handleMapMove = () => {
     if (!this.prevent) {
-      this.setState(overlayState(this.props, this.props.map, this.container!));
+      this.setState(overlayState(this.props, this.props.map!, this.container!));
     }
   };
 
   public componentDidMount() {
     const { map } = this.props;
 
-    map.on('move', this.handleMapMove);
+    map!.on('move', this.handleMapMove);
     // Now this.container is rendered and the size of container is known.
     // Recalculate the anchor/position
     this.handleMapMove();
@@ -71,7 +71,7 @@ export class ProjectedLayer extends React.Component<Props, OverlayParams> {
 
   public componentDidUpdate(prevProps: Props) {
     if (this.havePropsChanged(this.props, prevProps)) {
-      this.setState(overlayState(this.props, this.props.map, this.container!));
+      this.setState(overlayState(this.props, this.props.map!, this.container!));
     }
   }
 
@@ -80,7 +80,7 @@ export class ProjectedLayer extends React.Component<Props, OverlayParams> {
 
     this.prevent = true;
 
-    map.off('move', this.handleMapMove);
+    map!.off('move', this.handleMapMove);
   }
 
   public render() {

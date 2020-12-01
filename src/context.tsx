@@ -6,11 +6,13 @@ export const MapContext = React.createContext(undefined) as React.Context<
 >;
 
 // tslint:disable-next-line:no-any
-export function withMap<Props>(Component: React.ComponentClass<Props>) {
+export function withMap<Props>(
+  Component: React.ComponentClass<Props & { map?: MapboxGl.Map }>
+) {
   return function MappedComponent<T>(props: Props) {
     return (
       <MapContext.Consumer>
-        {(map) => <Component map={map} {...props} />}
+        {(map) => <Component map={map!} {...props} />}
       </MapContext.Consumer>
     );
   };

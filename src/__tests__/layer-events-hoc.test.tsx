@@ -1,9 +1,10 @@
 import * as React from 'react';
-import layerMouseTouchEvents from '../layer-events-hoc';
-import { MockComponent, mountWithMap, getMapMock } from '../jest/util';
-import { withMap } from '../context';
 
-const LayerHOC = withMap(layerMouseTouchEvents(MockComponent));
+import { withMap } from '../context';
+import { getMapMock, MockComponent, mountWithMap } from '../jest/util';
+import layerMouseTouchEvents from '../layer-events-hoc';
+
+const LayerHOC = withMap<any>(layerMouseTouchEvents(MockComponent as any));
 
 describe('layer-events-hoc', () => {
   it('Should default the id if none is passed', () => {

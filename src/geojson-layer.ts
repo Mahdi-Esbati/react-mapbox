@@ -100,7 +100,7 @@ export interface Props
     | MapboxGL.GeoJSONSource
     | MapboxGL.GeoJSONSourceRaw;
   before?: string;
-  map: MapboxGL.Map;
+  map?: MapboxGL.Map;
 }
 
 type MapboxEventTypes = Array<keyof MapboxGL.MapLayerEventType>;
@@ -147,7 +147,7 @@ export class GeoJSONLayer extends React.Component<Props> {
       visibility
     };
 
-    map.addLayer(
+    map!.addLayer(
       {
         id: layerId,
         source: this.id,
@@ -174,7 +174,7 @@ export class GeoJSONLayer extends React.Component<Props> {
         this.props[`${toCamelCase(type)}${eventToHandler[event]}`] || null;
 
       if (handler) {
-        map.on(event, layerId, handler);
+        map!.on(event, layerId, handler);
       }
     });
   };
@@ -182,7 +182,7 @@ export class GeoJSONLayer extends React.Component<Props> {
   private onStyleDataChange = () => {
     // if the style of the map has been updated and we don't have layer anymore,
     // add it back to the map and force re-rendering to redraw it
-    if (!this.props.map.getSource(this.id)) {
+    if (!this.props.map!.getSource(this.id)) {
       this.unbind();
       this.initialize();
       this.forceUpdate();
@@ -192,7 +192,7 @@ export class GeoJSONLayer extends React.Component<Props> {
   private initialize() {
     const { map } = this.props;
 
-    map.addSource(this.id, this.source);
+    map!.addSource(this.id, this.source);
 
     this.createLayer('symbol');
     this.createLayer('line');
@@ -204,16 +204,16 @@ export class GeoJSONLayer extends React.Component<Props> {
   private unbind() {
     const { map } = this.props;
 
-    if (map.getSource(this.id)) {
-      const { layers } = map.getStyle();
+    if (map!.getSource(this.id)) {
+      const { layers } = map!.getStyle();
 
       if (layers) {
         layers
           .filter((layer) => layer.source === this.id)
-          .forEach((layer) => map.removeLayer(layer.id));
+          .forEach((layer) => map!.removeLayer(layer.id));
       }
 
-      map.removeSource(this.id);
+      map!.removeSource(this.id);
     }
 
     types.forEach((type) => {
@@ -222,14 +222,14 @@ export class GeoJSONLayer extends React.Component<Props> {
         const prop = toCamelCase(type) + eventToHandler[event];
 
         if (this.props[prop]) {
-          map.off(event, this.buildLayerId(type), this.props[prop]);
+          map!.off(event, this.buildLayerId(type), this.props[prop]);
         }
       });
     });
 
     this.layerIds.forEach((lId) => {
-      if (map.getLayer(lId)) {
-        map.removeLayer(lId);
+      if (map!.getLayer(lId)) {
+        map!.removeLayer(lId);
       }
     });
   }
@@ -237,17 +237,17 @@ export class GeoJSONLayer extends React.Component<Props> {
   public componentDidMount() {
     const { map } = this.props;
     this.initialize();
-    map.on('styledata', this.onStyleDataChange);
+    map!.on('styledata', this.onStyleDataChange);
   }
 
   public componentWillUnmount() {
     const { map } = this.props;
 
-    if (!map || !map.getStyle()) {
+    if (!map || !map!.getStyle()) {
       return;
     }
 
-    map.off('styledata', this.onStyleDataChange);
+    map!.off('styledata', this.onStyleDataChange);
 
     this.unbind();
   }
@@ -260,7 +260,7 @@ export class GeoJSONLayer extends React.Component<Props> {
 
   public componentDidUpdate(prevProps: Props) {
     const { data, before, layerOptions, map } = prevProps;
-    const source = map.getSource(this.id);
+    const source = map!.getSource(this.id);
     if (!this.isGeoJSONSource(source)) {
       return;
     }
@@ -285,7 +285,7 @@ export class GeoJSONLayer extends React.Component<Props> {
       const layerId = this.buildLayerId(type);
 
       if (this.props.layerOptions && layerFilterChanged) {
-        map.setFilter(layerId, this.props.layerOptions.filter || []);
+        map!.setFilter(layerId, this.props.layerOptions.filter || []);
       }
 
       const paintProp = toCamelCase(type) + 'Paint';
@@ -294,7 +294,7 @@ export class GeoJSONLayer extends React.Component<Props> {
         const paintDiff = diff(prevProps[paintProp], this.props[paintProp]);
 
         Object.keys(paintDiff).forEach((key) => {
-          map.setPaintProperty(layerId, key, paintDiff[key]);
+          map!.setPaintProperty(layerId, key, paintDiff[key]);
         });
       }
 
@@ -304,7 +304,7 @@ export class GeoJSONLayer extends React.Component<Props> {
         const layoutDiff = diff(prevProps[layoutProp], this.props[layoutProp]);
 
         Object.keys(layoutDiff).forEach((key) => {
-          map.setLayoutProperty(layerId, key, layoutDiff[key]);
+          map!.setLayoutProperty(layerId, key, layoutDiff[key]);
         });
       }
 
@@ -315,17 +315,17 @@ export class GeoJSONLayer extends React.Component<Props> {
 
         if (prevProps[prop] !== this.props[prop]) {
           if (prevProps[prop]) {
-            map.off(event, layerId, prevProps[prop]);
+            map!.off(event, layerId, prevProps[prop]);
           }
 
           if (this.props[prop]) {
-            map.on(event, layerId, this.props[prop]);
+            map!.on(event, layerId, this.props[prop]);
           }
         }
       });
 
       if (before !== this.props.before) {
-        map.moveLayer(layerId, this.props.before);
+        map!.moveLayer(layerId, this.props.before);
       }
     });
   }

@@ -1,7 +1,8 @@
 import { mount } from 'enzyme';
-import * as React from 'react';
-import { MapContext } from '../context';
 import * as MapboxGl from 'mapbox-gl';
+import * as React from 'react';
+
+import { MapContext } from '../context';
 
 // tslint:disable-next-line:no-any
 export const getMapMock = (override?: { [key: string]: any }) => ({
@@ -22,7 +23,7 @@ export const getMapMock = (override?: { [key: string]: any }) => ({
 });
 
 // tslint:disable-next-line:no-any
-export const mountWithMap = (comp: JSX.Element, mapValue: any) => {
+export const mountWithMap = (comp: React.ReactElement<any>, mapValue: any) => {
   return mount(
     <MapContext.Provider value={mapValue}>{comp}</MapContext.Provider>
   );
@@ -30,7 +31,7 @@ export const mountWithMap = (comp: JSX.Element, mapValue: any) => {
 
 export class MockComponent extends React.Component<{
   id: string;
-  map: MapboxGl.Map;
+  map?: MapboxGl.Map;
 }> {
   public render() {
     return <h1>{this.props.id}</h1>;

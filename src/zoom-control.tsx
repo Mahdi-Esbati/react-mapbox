@@ -61,7 +61,7 @@ export interface Props {
   style?: React.CSSProperties;
   className?: string;
   tabIndex?: number;
-  map: Map;
+  map?: Map;
 }
 
 export interface State {
@@ -70,10 +70,10 @@ export interface State {
 
 export class ZoomControl extends React.Component<Props, State> {
   public static defaultProps = {
-    position: POSITIONS[0],
+    position: POSITIONS[0] as AnchorLimits,
     zoomDiff: 0.5,
     onControlClick: (map: Map, zoomDiff: number) => {
-      map.zoomTo(map.getZoom() + zoomDiff);
+      map!.zoomTo(map!.getZoom() + zoomDiff);
     }
   };
 
@@ -98,11 +98,11 @@ export class ZoomControl extends React.Component<Props, State> {
   };
 
   private onClickPlus = () => {
-    this.props.onControlClick!(this.props.map, this.props.zoomDiff!);
+    this.props.onControlClick!(this.props.map!, this.props.zoomDiff!);
   };
 
   private onClickMinus = () => {
-    this.props.onControlClick!(this.props.map, -this.props.zoomDiff!);
+    this.props.onControlClick!(this.props.map!, -this.props.zoomDiff!);
   };
 
   public render() {
