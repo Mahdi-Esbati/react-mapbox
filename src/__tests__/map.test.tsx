@@ -1,11 +1,12 @@
+import { mount } from 'enzyme';
+import * as React from 'react';
+
+import { getMapMock } from '../jest/util';
+import ReactMapboxGl, { FitBounds } from '../map';
+
 jest.mock('mapbox-gl', () => ({
   Map: jest.fn()
 }));
-
-import * as React from 'react';
-import ReactMapboxGl, { FitBounds } from '../map';
-import { mount } from 'enzyme';
-import { getMapMock } from '../jest/util';
 
 let mockfitBounds = jest.fn();
 let mockon = jest.fn();
