@@ -6,8 +6,8 @@ export const MapContext = React.createContext(undefined) as React.Context<
 >;
 
 // tslint:disable-next-line:no-any
-export function withMap(Component: React.ComponentClass<any>) {
-  return function MappedComponent<T>(props: T) {
+export function withMap<Props>(Component: React.ComponentClass<Props>) {
+  return function MappedComponent<T>(props: Props) {
     return (
       <MapContext.Consumer>
         {(map) => <Component map={map} {...props} />}
