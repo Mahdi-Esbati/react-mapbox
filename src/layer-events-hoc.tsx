@@ -1,12 +1,13 @@
-import * as React from 'react';
-import { Props as FeatureProps } from './feature';
-import { generateID } from './util/uid';
-import { LayerCommonProps, Props as LayerProps } from './layer';
 import { Map } from 'mapbox-gl';
+import * as React from 'react';
+
+import { Props as FeatureProps } from './feature';
+import { LayerCommonProps, Props as LayerProps } from './layer';
+import { generateID } from './util/uid';
 
 export interface EnhancedLayerProps {
   id?: string;
-  map: Map;
+  map?: Map;
 }
 
 export type OwnProps = EnhancedLayerProps & LayerCommonProps;
@@ -93,7 +94,7 @@ export function layerMouseTouchEvents(
       );
 
       if (this.areFeaturesDraggable(children)) {
-        map.dragPan.disable();
+        map!.dragPan.disable();
       }
     };
 
@@ -102,7 +103,7 @@ export function layerMouseTouchEvents(
       const children = this.getChildren();
       const { map } = this.props;
       if (this.areFeaturesDraggable(children)) {
-        map.dragPan.enable();
+        map!.dragPan.enable();
       }
 
       this.hover.forEach((id) => {
@@ -140,13 +141,13 @@ export function layerMouseTouchEvents(
       const endEvent = startEvent === 'mousedown' ? 'mouseup' : 'touchend';
       const { map } = this.props;
 
-      map.once(moveEvent, this.onFeatureDragStart);
-      map.on(moveEvent, this.onFeatureDrag);
+      map!.once(moveEvent, this.onFeatureDragStart);
+      map!.on(moveEvent, this.onFeatureDrag);
 
       // tslint:disable-next-line:no-any
-      map.once(endEvent, (evt: any) => {
-        map.off(moveEvent, this.onFeatureDragStart);
-        map.off(moveEvent, this.onFeatureDrag);
+      map!.once(endEvent, (evt: any) => {
+        map!.off(moveEvent, this.onFeatureDragStart);
+        map!.off(moveEvent, this.onFeatureDrag);
         this.onFeatureDragEnd(evt);
       });
     };
@@ -219,21 +220,21 @@ export function layerMouseTouchEvents(
     public componentDidMount() {
       const { map } = this.props;
 
-      map.on('click', this.id, this.onClick);
-      map.on('mouseenter', this.id, this.onMouseEnter);
-      map.on('mouseleave', this.id, this.onMouseLeave);
-      map.on('mousedown', this.id, this.onMouseDown);
-      map.on('touchstart', this.id, this.onTouchStart);
+      map!.on('click', this.id, this.onClick);
+      map!.on('mouseenter', this.id, this.onMouseEnter);
+      map!.on('mouseleave', this.id, this.onMouseLeave);
+      map!.on('mousedown', this.id, this.onMouseDown);
+      map!.on('touchstart', this.id, this.onTouchStart);
     }
 
     public componentWillUnmount() {
       const { map } = this.props;
 
-      map.off('click', this.onClick);
-      map.off('mouseenter', this.onMouseEnter);
-      map.off('mouseleave', this.onMouseLeave);
-      map.off('mousedown', this.onMouseDown);
-      map.off('touchstart', this.onTouchStart);
+      map!.off('click', this.onClick);
+      map!.off('mouseenter', this.onMouseEnter);
+      map!.off('mouseleave', this.onMouseLeave);
+      map!.off('mousedown', this.onMouseDown);
+      map!.off('touchstart', this.onTouchStart);
     }
 
     public render() {
