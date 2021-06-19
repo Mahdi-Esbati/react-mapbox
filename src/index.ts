@@ -1,5 +1,6 @@
 // Add a style tag to the document's head for the map's styling
 import Cluster from './cluster';
+import ConfigManager from './config-manager';
 import { MapContext, withMap } from './context';
 import Feature from './feature';
 import GeoJSONLayer from './geojson-layer';
@@ -20,6 +21,7 @@ export {
   Feature,
   Layer,
   GeoJSONLayer,
+  ConfigManager,
   Map,
   Popup,
   ZoomControl,
