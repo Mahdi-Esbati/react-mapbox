@@ -3,13 +3,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 
 import { MapContext } from './context';
-import {
-  Events,
-  events,
-  Listeners,
-  listenEvents,
-  updateEvents
-} from './map-events';
+import { Events, events, Listeners, listenEvents, updateEvents } from './map-events';
 
 const isEqual = require('deep-equal'); //tslint:disable-line
 
@@ -191,8 +185,6 @@ const ReactMapboxFactory = ({
         maxBounds
       } = this.props;
 
-      // tslint:disable-next-line:no-any
-      (MapboxGl as any).accessToken = accessToken;
       if (apiUrl) {
         // tslint:disable-next-line:no-any
         (MapboxGl as any).config.API_URL = apiUrl;
@@ -205,6 +197,7 @@ const ReactMapboxFactory = ({
       }
 
       const opts: MapboxGl.MapboxOptions = {
+        accessToken,
         preserveDrawingBuffer,
         hash,
         zoom: zoom[0],
