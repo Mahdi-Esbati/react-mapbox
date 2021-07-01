@@ -1,16 +1,14 @@
 ![Logo](/logo.png)
 
-# React-mapbox | [Documentation](docs/API.md)
+# @Mahdi-Esbati/React-Mapbox
 
-[![Build Status](https://travis-ci.org/Mahdi-Esbati/react-mapbox.svg?branch=master)](https://travis-ci.org/Mahdi-Esbati/react-mapbox)
-[![npm version](https://img.shields.io/npm/v/react-mapbox-gl.svg?style=flat)](https://www.npmjs.com/package/react-mapbox-gl)
-[![npm downloads](https://img.shields.io/npm/dm/react-mapbox-gl.svg)](https://www.npmjs.com/package/react-mapbox-gl)
-[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://github.com/microsoft/TypeScript)
-<br/>
+### This is a React map library based on [react-mapbox-gl](https://github.com/alex3165/react-mapbox-gl).
+#### The Purpose
+[react-mapbox-gl](https://github.com/alex3165/react-mapbox-gl) library is a great wrapper for mapbox but it is no longer maintained.
+The purpose of this library is to fix the issues related to react-mapbox-gl.
 
-### React map library based on [react-mapbox-gl](https://github.com/alex3165/react-mapbox-gl).
-
-#### Features
+#### Fixed issues
 
 - Fixed undefined id's in feature component
 - Fixed typescript type definitions
+- Added support for usage of Mapbox with [vite](https://vitejs.dev) and [esbuild](https://esbuild.github.io) (esm module bundlers)
