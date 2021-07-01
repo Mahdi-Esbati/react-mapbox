@@ -1,3 +1,4 @@
+import isEqual from 'deep-equal';
 import * as MapboxGL from 'mapbox-gl';
 import * as React from 'react';
 
@@ -6,7 +7,6 @@ import diff from './util/diff';
 import { LayerType, Sources } from './util/types';
 import { generateID } from './util/uid';
 
-const isEqual = require('deep-equal'); //tslint:disable-line
 const types = ['symbol', 'line', 'fill', 'fill-extrusion', 'circle'];
 const toCamelCase = (str: string) =>
   str

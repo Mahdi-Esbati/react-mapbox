@@ -1,10 +1,10 @@
+import isEqual from 'deep-equal';
 import * as MapboxGL from 'mapbox-gl';
 import * as React from 'react';
 
 import { Props as FeatureProps } from './feature';
 import diff from './util/diff';
 
-const isEqual = require('deep-equal'); //tslint:disable-line
 export type Paint =
   | MapboxGL.BackgroundPaint
   | MapboxGL.FillPaint
